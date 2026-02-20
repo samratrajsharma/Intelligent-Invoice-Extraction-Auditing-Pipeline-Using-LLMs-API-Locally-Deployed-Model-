@@ -1,0 +1,6 @@
+pdfplumber
+pytesseract
+Pillow
+pandas
+requests
+python-dateutilxx
