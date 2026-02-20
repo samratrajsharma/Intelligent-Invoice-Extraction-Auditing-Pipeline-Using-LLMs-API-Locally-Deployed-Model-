@@ -1,8 +1,11 @@
 import os
+import re
+import json
+import requests
 import pdfplumber
 import pytesseract
-import requests
 from PIL import Image
+from dateutil import parser
 
 
 INVOICE_FOLDER = "invoices"
@@ -47,12 +50,11 @@ def extract_text(path):
 
 def call_llm(text):
 
-    short_text = text[:1500]
+    short = text[:1500]
 
     prompt = f"""
-Return invoice info as JSON only.
+Return ONLY JSON.
 
-Format:
 {{
  "Invoice_Date":"",
  "Vendor_Name":"",
@@ -61,8 +63,7 @@ Format:
  "Total_Amount":""
 }}
 
-Invoice:
-{short_text}
+{short}
 """
 
     payload = {
@@ -76,6 +77,38 @@ Invoice:
     return r.json().get("response", "")
 
 
+def extract_json(text):
+
+    m = re.search(r"\{[\s\S]*\}", text)
+
+    if not m:
+        return None
+
+    try:
+        return json.loads(m.group())
+    except:
+        return None
+
+
+def clean_amount(val):
+
+    if not val:
+        return 0.0
+
+    val = val.replace("$", "").replace(",", "")
+
+    return float(val)
+
+
+def normalize_date(d):
+
+    try:
+        dt = parser.parse(d, dayfirst=True)
+        return dt.strftime("%Y-%m-%d")
+    except:
+        return ""
+
+
 def main():
 
     invoices = scan_invoices()
@@ -84,14 +117,25 @@ def main():
 
         path = os.path.join(INVOICE_FOLDER, file)
 
-        print("Processing:", file)
-
         text = extract_text(path)
 
-        llm_out = call_llm(text)
+        llm = call_llm(text)
 
-        print(llm_out)
-        print()
+        data = extract_json(llm)
+
+        if not data:
+            print("Parse failed:", file)
+            continue
+
+        cleaned = {
+            "Invoice_Date": normalize_date(data["Invoice_Date"]),
+            "Vendor_Name": data["Vendor_Name"],
+            "Net_Amount": clean_amount(data["Net_Amount"]),
+            "Tax_Amount": clean_amount(data["Tax_Amount"]),
+            "Total_Amount": clean_amount(data["Total_Amount"])
+        }
+
+        print(cleaned)
 
 
 if __name__ == "__main__":
