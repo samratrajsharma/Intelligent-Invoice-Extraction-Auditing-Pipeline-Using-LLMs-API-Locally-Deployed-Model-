@@ -1,23 +1,22 @@
 import os
 import pdfplumber
 import pytesseract
+import requests
 from PIL import Image
 
 
 INVOICE_FOLDER = "invoices"
 
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL = "qwen2.5:3b"
+
 
 def scan_invoices():
 
-    files = os.listdir(INVOICE_FOLDER)
-
-    invoice_files = []
-
-    for file in files:
-        if file.lower().endswith((".pdf", ".jpg", ".jpeg", ".png")):
-            invoice_files.append(file)
-
-    return invoice_files
+    return [
+        f for f in os.listdir(INVOICE_FOLDER)
+        if f.lower().endswith((".pdf", ".jpg", ".jpeg", ".png"))
+    ]
 
 
 def extract_text_from_pdf(path):
@@ -42,8 +41,39 @@ def extract_text(path):
 
     if path.lower().endswith(".pdf"):
         return extract_text_from_pdf(path)
-    else:
-        return extract_text_from_image(path)
+
+    return extract_text_from_image(path)
+
+
+def call_llm(text):
+
+    short_text = text[:1500]
+
+    prompt = f"""
+Return invoice info as JSON only.
+
+Format:
+{{
+ "Invoice_Date":"",
+ "Vendor_Name":"",
+ "Net_Amount":"",
+ "Tax_Amount":"",
+ "Total_Amount":""
+}}
+
+Invoice:
+{short_text}
+"""
+
+    payload = {
+        "model": MODEL,
+        "prompt": prompt,
+        "stream": False
+    }
+
+    r = requests.post(OLLAMA_URL, json=payload)
+
+    return r.json().get("response", "")
 
 
 def main():
@@ -54,12 +84,14 @@ def main():
 
         path = os.path.join(INVOICE_FOLDER, file)
 
-        print("=" * 50)
         print("Processing:", file)
 
         text = extract_text(path)
 
-        print(text)
+        llm_out = call_llm(text)
+
+        print(llm_out)
+        print()
 
 
 if __name__ == "__main__":
