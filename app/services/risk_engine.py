@@ -1,5 +1,6 @@
 from app.config import SessionLocal
 from app.models.document_model import Document
+from app.services.anomaly_detection_service import detect_amount_anomaly
 
 
 def calculate_risk(structured_data):
@@ -43,5 +44,11 @@ def calculate_risk(structured_data):
     if duplicate:
         risk_score += 40
         reasons.append("Possible duplicate invoice")
+
+    anomaly, avg_amount = detect_amount_anomaly(vendor, amount)
+
+    if anomaly:
+        risk_score += 30
+        reasons.append(f"Amount anomaly detected (vendor avg ≈ {avg_amount:.2f})")
 
     return risk_score, reasons

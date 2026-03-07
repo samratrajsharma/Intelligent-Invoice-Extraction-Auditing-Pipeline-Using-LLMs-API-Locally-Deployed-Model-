@@ -9,6 +9,7 @@ from app.models.vector_model import VectorMapping
 from app.services.search_service import search_similar_documents
 from app.services.assistant_service import ask_financial_assistant
 from app.services.analytics_service import get_system_analytics
+from app.services.vendor_intelligence_service import get_vendor_insights
 
 app = FastAPI(
     title="AI Financial Operations Platform",
@@ -22,6 +23,13 @@ Base.metadata.create_all(bind=engine)
 @app.get("/")
 def root():
     return {"message": "AI FinOps Platform Running"}
+
+@app.get("/vendor-insights/{vendor_name}")
+async def vendor_insights(vendor_name: str):
+
+    insights = get_vendor_insights(vendor_name)
+
+    return insights
 
 @app.get("/analytics")
 async def analytics():
