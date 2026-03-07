@@ -1,0 +1,101 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc.*
+*.py,cover
+.python-version
+
+# =========================
+# Virtual Environments
+# =========================
+venv/
+.env/
+.venv/
+env/
+ENV/
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+logs/
+*.log
+
+# =========================
+# Data / Runtime Files
+# =========================
+data/invoices/
+data/processed_images/
+data/outputs/
+
+# If you store large datasets later
+datasets/
+data/raw/
+data/processed/
+
+# =========================
+# Model Files
+# =========================
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.model
+*.safetensors
+
+# =========================
+# Vector DB / Embeddings
+# =========================
+vector_store/
+faiss_index/
+*.faiss
+
+# =========================
+# Temporary Files
+# =========================
+tmp/
+temp/
+*.tmp
+
+# =========================
+# Notebook Checkpoints
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Build / Packaging
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.local
+.env.*
+
+# =========================
+# Database Files
+# =========================
+*.db
+*.sqlite
+*.sqlite3

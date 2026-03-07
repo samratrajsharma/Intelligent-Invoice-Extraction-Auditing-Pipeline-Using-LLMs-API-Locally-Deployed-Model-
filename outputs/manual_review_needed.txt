@@ -1,2 +1,4 @@
 invoice_c.pdf | Math Mismatch: Calculated 220.00 vs Total 5000.00
 invoice_c.pdf | Math Mismatch: Calculated 5200.00 vs Total 5000.00
+invoice_b.jpeg | Math Mismatch: Calculated 50.00 vs Total 550.00
+invoice_c.pdf | Math Mismatch: Calculated 220.00 vs Total 5000.00
