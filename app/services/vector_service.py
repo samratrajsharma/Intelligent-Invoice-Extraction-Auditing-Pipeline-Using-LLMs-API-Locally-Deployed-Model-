@@ -28,9 +28,11 @@ def store_embedding(text):
 
     index.add(vector)
 
+    vector_id = index.ntotal - 1
+
     faiss.write_index(index, INDEX_PATH)
 
-    return index.ntotal
+    return vector_id
 
 
 def search_similar(text, k=3):
