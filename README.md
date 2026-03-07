@@ -397,7 +397,7 @@ AI_FINOps_Project
 # Installation
 
 ## Clone Repository
-git clone https://github.com/samratrajsharma/AI-Financial-Operations-&-Risk-Platform
+git clone https://github.com/samratrajsharma/AI-Financial-Operations-and-Risk-Platform
 
 cd AI-Financial-Operations-&-Risk-Platform
 
