@@ -1,5 +1,6 @@
-from fastapi import FastAPI
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from typing import List
+
 from app.services.document_service import save_uploaded_file
 from app.pipelines.document_pipeline import process_document
 from app.config import engine, Base
@@ -13,9 +14,11 @@ app = FastAPI(
 
 Base.metadata.create_all(bind=engine)
 
+
 @app.get("/")
 def root():
     return {"message": "AI FinOps Platform Running"}
+
 
 @app.post("/upload-document")
 async def upload_document(file: UploadFile = File(...)):

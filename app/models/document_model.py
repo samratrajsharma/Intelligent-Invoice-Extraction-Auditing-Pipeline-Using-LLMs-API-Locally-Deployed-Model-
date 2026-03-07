@@ -16,3 +16,5 @@ class Document(Base):
     invoice_date = Column(String)
     total_amount = Column(String)
     document_type = Column(String)
+    risk_score = Column(String)
+    risk_reasons = Column(Text)
