@@ -356,42 +356,46 @@ Dashboard modules:
 ---
 
 # Project Structure
-AI_FINOps_Project
+AI-Financial-Operations-and-Risk-Intelligence-Platform
 │
 ├── app
-│ ├── main.py
-│ ├── config.py
-│
-│ ├── pipelines
-│ │ └── document_pipeline.py
-│
-│ ├── services
-│ │ ├── llm_service.py
+│ │
+│ ├── main.py # FastAPI entry point
+│ ├── config.py # Database configuration
+│ │
+│ ├── models # Database models
+│ │ ├── document_model.py
+│ │ └── vector_model.py
+│ │
+│ ├── services # Core business logic
 │ │ ├── text_extraction_service.py
+│ │ ├── llm_service.py
+│ │ ├── document_classifier.py
 │ │ ├── risk_engine.py
 │ │ ├── anomaly_detection_service.py
 │ │ ├── vector_service.py
+│ │ ├── vector_mapping_service.py
 │ │ ├── search_service.py
+│ │ ├── assistant_service.py
 │ │ ├── analytics_service.py
-│ │ ├── vendor_intelligence_service.py
-│ │ └── assistant_service.py
+│ │ └── vendor_intelligence_service.py
+│ │
+│ └── pipelines # AI document processing pipeline
+│ └── document_pipeline.py
 │
-│ └── models
-│ ├── document_model.py
-│ └── vector_model.py
-│
-├── ui
+├── ui # Streamlit dashboard
 │ └── app.py
 │
-├── data
-│ ├── invoices
-│ └── outputs
+├── data # Data storage
+│ ├── invoices # Uploaded documents
+│ └── outputs # Dashboard screenshots / outputs
 │
-├── vector_store.index
-├── finops.db
-├── requirements.txt
-└── README.md
-
+├── vector_store.index # FAISS vector database
+├── finops.db # SQLite database
+│
+├── requirements.txt # Python dependencies
+├── run.py # Backend runner script
+└── README.md # Project documentation
 ---
 
 # Installation
@@ -517,15 +521,23 @@ Returns vendor spending analysis.
 
 ## Dashboard
 
-![Dashboard](data/outputs/dashboard.png)
+![Dashboard](data/outputs/image1.png)
 
 ## Upload Result
 
-![Upload](data/outputs/upload_result.png)
+![Upload](data/outputs/image2.png)
 
 ## Analytics
 
-![Analytics](data/outputs/analytics_view.png)
+![Analytics](data/outputs/image3.png)
+
+## Vendor Insights
+
+![Insights](data/outputs/image4.png)
+
+## ASK AI
+
+![AI Assistant](data/outputs/image5.png)
 
 ---
 
